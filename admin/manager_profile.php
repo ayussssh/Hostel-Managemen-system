@@ -60,25 +60,35 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container agile-banner_nav">
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-				<h1><a class="navbar-brand" href="admin_home.php">NITC <span class="display"> </span></a></h1>
+				<h1><a class="navbar-brand" href="../home_manager.php">NITC <span class="display"></span></a></h1>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 				</button>
 
 				<div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
 					<ul class="navbar-nav ml-auto">
-						<li class="nav-item active">
-						<a class="nav-link" href="admin_home.php">Home <span class="sr-only">(current)</span></a>
+						<li class="nav-item">
+							<a class="nav-link" href="../home_manager.php">Home <span class="sr-only">(current)</span></a>
+						</li>
+						
+						<li class="nav-item">
+						<a class="nav-link" href="../allocate_room.php">Allocate Rooms</a>
 					</li>
-          <li class="nav-item">
-						<a class="nav-link" href="create_hm.php">Appoint/Remove Hostel Manager</a>
+					<li class="dropdown nav-item">
+						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Rooms
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu agile_short_dropdown">
+							<li>
+								<a href="../allocated_rooms.php">Allocated Rooms</a>
+							</li>
+							<li>
+								<a href="../empty_rooms.php">Empty Rooms</a>
+							</li>
+						</ul>
 					</li>
-          
 					<li class="nav-item">
-						<a class="nav-link" href="students.php">Students</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="admin_contact.php">Contact</a>
+						<a class="nav-link" href="../contact_manager.php">Contact</a>
 					</li>
 						<li class="dropdown nav-item">
 								<li>
@@ -96,7 +106,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <br><br><br><br><br>
 	<div class="main">
 		<div id="navigation" style="display:none;" class="w3_agile">
-			
+      <ul>
+				<li class="selected">
+					<a href="#"><i class="fa fa-list-ul" aria-hidden="true"></i><span>Info</span></a>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-folder" aria-hidden="true"></i><span>Admin</span></a>
+				</li>
+			</ul>
 		</div>
 		<div id="wrapper" class="w3ls_wrapper w3layouts_wrapper">
 			<div id="steps" style="margin:0 auto;" class="agileits w3_steps">
@@ -109,7 +126,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="abt-agile-right">
 
 								<h3><?php echo $_SESSION['fname']." ".$_SESSION['lname']; ?></h3>
-								<h5>Admin</h5>
+								<h5>Hostel Manager</h5>
 								<ul class="address">
 									<li>
 										<ul class="address-text">
@@ -129,11 +146,72 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											<li>: <?php echo $_SESSION['email']; ?></li>
 										</ul>
 									</li>
+                  <li>
+										<ul class="address-text">
+											<li><b>Managing Hostel </b></li>
+                      <?php
+                          $HOID = $_SESSION['hostel_id'];
+                          $query999 = "SELECT * FROM Hostel WHERE Hostel_id = '$HOID'";
+                          $result999 = mysqli_query($conn,$query999);
+                          $row999 = mysqli_fetch_assoc($result999);
+                          $HNM = $row999['Hostel_name'];
+                          if(!$HNM){
+                            $HNM='None';
+                          }
+                       ?>
+											<li>: <?php echo $HNM; ?></li>
+										</ul>
+									</li>
 								</ul>
 							</div>
 								<div class="clear"></div>
 						</div>
 				</fieldset>
+
+        <fieldset class="step agileinfo w3ls_fancy_step">
+          <legend>Admin Info</legend>
+          <div class="abt-agile">
+            <div class="abt-agile-left">
+            </div>
+            <div class="abt-agile-right">
+							<?php
+									$ad=1;
+									$queryA = "SELECT * FROM Hostel_Manager WHERE Isadmin = '$ad'";
+									$resultA = mysqli_query($conn,$queryA);
+									$rowA = mysqli_fetch_assoc($resultA);
+									$adFname = $rowA['Fname'];
+									$adLname = $rowA['Lname'];
+									$adUname = $rowA['Username'];
+									$adMob = $rowA['Mob_no'];
+									$adEmail = $rowA['Email'];
+							 ?>
+              <h3><?php echo $adFname." ".$adLname; ?></h3>
+              <h5>Admin</h5>
+              <ul class="address">
+                <li>
+                  <ul class="address-text">
+                    <li><b>Username </b></li>
+                    <li>: <?php echo $adUname; ?></li>
+                  </ul>
+                </li>
+                <li>
+                  <ul class="address-text">
+                    <li><b>PHONE </b></li>
+                    <li>: <?php echo $adMob; ?></li>
+                  </ul>
+                </li>
+                <li>
+                  <ul class="address-text">
+                    <li><b>Email </b></li>
+                    <li>: <?php echo $adEmail; ?></li>
+                  </ul>
+                </li>
+                
+              </ul>
+            </div>
+              <div class="clear"></div>
+          </div>
+      </fieldset>
 
 				</form>
 			</div>
